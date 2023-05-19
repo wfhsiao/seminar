@@ -6,7 +6,7 @@ This is a temporary script file.
 """
 import time
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,8 +28,7 @@ def obtainFundayTitles(driver, rowId):
     return res
     
 if __name__=='__main__':
-    service = ChromeService(executable_path=ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     
     start = time.time()
     driver.get("https://tts-nptu.funday.asia/")
@@ -37,7 +36,8 @@ if __name__=='__main__':
     email.send_keys('BBF110008')
     passwd = driver.find_element(By.NAME, 'password')
     passwd.send_keys('BBF110008')
-    passwd.send_keys(Keys.RETURN)
+    #passwd.send_keys(Keys.RETURN)
+    passwd.submit()
     res = obtainFundayTitles(driver, "gridL0")
     print(res)
     driver.quit()

@@ -1,1 +1,47 @@
+3. What procedures were demonstrated in the video lecture?
+
+The video is about using Selenium WebDriver with Python to automate a test case for a quiz with checkboxes. The procedure described in the video includes the following steps:
+
+Go to the quiz link where each question has checkboxes given against the possible answers.
+Click each combination of checkboxes, all checkboxes or each pair of checkboxes or a single checkbox until the answer is correct.
+Repeat the previous step for each question.
+The video then goes on to describe how to automate this test case using Selenium WebDriver with Python. It includes details on how to find checkbox elements, check them, and use a user-defined function to determine if the answer is correct.
+
+The reasoning behind automating the test case for a quiz with checkboxes using Selenium WebDriver with Python is to efficiently and accurately determine the correct answers to the quiz questions by trying different combinations of checkboxes. The video describes how to use Selenium WebDriver with Python to find checkbox elements, check them, and use a user-defined function to determine if the answer is correct. This automation allows for a more efficient and accurate way of finding the correct answers to the quiz questions.
+
+6. What procedures were demonstrated in the video lecture?
+The procedures demonstrated in the video are handling Selenium Python frames and Selenium Python alert handling. The video explains how to switch to a frame and find an element within it, and how to handle an alert message box that pops up on the web page using Selenium web driver. It also provides a Python script example that shows how to find and switch to a frame, find and click a button within the frame, and handle the alert that appears after clicking the button.
+
+10. What procedures were demonstrated in the video lecture?
+
+The video is a tutorial on using Selenium WebDriver with Python to take screenshots. The procedure described in the video includes the following steps:
+1. Write a function to take screenshots automatically using the `save_screenshot` method of WebDriver.
+2. Use the Python Imaging Library (PIL) to modify a screenshot by resizing it, rotating it, or saving it in another format.
+3. Use PIL to take an element screenshot by cropping that screenshot.
+4. Call the screenshot function within a test script to take screenshots automatically.
+
+The video then goes on to provide an example script that demonstrates how to implement this procedure using Selenium WebDriver with Python and the PIL library.
+
+12. What procedures were demonstrated in the video lecture?
+
+1. Install OpenPy Excel package using the pip command: `PIP Install OpenPy Excel`.
+2. In PyCharm project, click `File` > `Settings` > `project interpreter`, then type `OpenPy Excel` in available packages and click on the `install package` button.
+3. Create a new Python file `Excel read.py` in PyCharm ID.
+4. Import OpenPy Excel and give the alias as `O`.
+5. Specify the Excel file and the worksheet within the Excel file.
+6. Define a variable for the workbook: `WBE = OpenPy Excel.load_workbook(name of the Excel file along with the full file path)`.
+7. Define a variable for the worksheet: `WS = workbook[Data1]`.
+8. Get the maximum number of rows and maximum number of columns.
+9. Start reading data from the second row.
+10. Access individual cells of the worksheet using `.cell(row number, column number).value`.
+
+
+13. What procedures were demonstrated in the video lecture?
+The video is a tutorial on using Selenium WebDriver with Python to implement the Page Object Model (POM) design pattern. The procedure described in the video includes the following steps:
+1. Create separate files for the test logic and for the web page-specific information, such as locators and operations.
+2. Implement POM in a new or existing Python project by creating separate directories or folders for web pages and test cases.
+3. Create a separate Python file for each web page and write code to define page-specific information such as title, locators, and operations.
+4. Write code in the test case Python file to contain only the test logic, meaning only test steps and expected results validations.
+
+The video then goes on to provide an example script that demonstrates how to implement this procedure using Selenium WebDriver with Python and the POM design pattern.
 

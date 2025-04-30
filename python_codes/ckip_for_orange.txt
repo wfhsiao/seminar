@@ -1,0 +1,75 @@
+from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger
+from Orange.data import Table, Domain, DiscreteVariable, StringVariable, ContinuousVariable
+import numpy as np
+
+def preprocess_chinese_text(in_data):
+    # Ensure input data exists
+    if in_data is None:
+        print("No input data.")
+        return None
+
+    # Get text field and other relevant fields
+    text_var = in_data.domain['text']
+    name_var = in_data.domain['name']
+    stars_var = in_data.domain['stars']
+
+    # Extract data
+    sentences = [str(row[text_var]) for row in in_data]
+    names = [str(row[name_var]) for row in in_data]
+    stars = [float(row[stars_var]) for row in in_data]
+
+    # Initialize Ckip word segmenter and POS tagger
+    ws_driver = CkipWordSegmenter(model="albert-tiny", device=-1)
+    pos_driver = CkipPosTagger(model="albert-tiny", device=-1)
+
+    # Perform word segmentation and POS tagging
+    ws_results = ws_driver(sentences)
+    pos_results = pos_driver(ws_results)
+
+    # Filter unnecessary POS tags
+    def clean(sentence_ws, sentence_pos):
+        stop_pos = {'Nep', 'Nh', 'Nb', ''} # POS tags to filter out
+        short_sentence = [ 
+            word_ws for word_ws, word_pos in zip(sentence_ws, sentence_pos) 
+            if (word_pos.startswith("V") or word_pos.startswith("N")) 
+            and (word_pos not in stop_pos) 
+            and (len(word_ws) > 1) 
+        ]
+        return " ".join(short_sentence)
+
+    # Clean sentences
+    cleaned_sentences = [clean(ws, pos) for ws, pos in zip(ws_results, pos_results)]
+
+    # Create StringVariable for text (important for Corpus)
+    tokenized_text_var = StringVariable("tokenized_text")
+    tokenized_text_var.attributes["type"] = "string"  # Mark as string variable
+    
+    name_var = StringVariable("name")
+    stars_var = ContinuousVariable("stars")
+
+    # Create new domain with all variables
+    new_domain = Domain(
+        [stars_var],  # features/attributes
+        [],  # class_vars
+        [tokenized_text_var, name_var]  # metas - text should be in metas
+    )
+
+    # Convert stars to numpy array for X
+    X = np.array([[s] for s in stars])
+    
+    # Convert text and names to numpy array for metas
+    metas = np.array([[t, n] for t, n in zip(cleaned_sentences, names)], dtype=object)
+    
+    # Create Table
+    out_data = Table.from_numpy(
+        domain=new_domain,
+        X=X,
+        metas=metas
+    )
+    
+    # Set corpus flag for the table
+    out_data.attributes["corpus"] = True
+    
+    return out_data
+
+out_data = preprocess_chinese_text(in_data)
